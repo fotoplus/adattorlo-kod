@@ -1,6 +1,6 @@
 # Adattölrő kód kezelő
 
-
+Ez a rendszer lehetővé teszi a megigényelt kódok kezelését a [korábbihoz](https://github.com/fotoplus/adattorlo-cimke) hasonló módon, azzal a különbséggel, hogy ide az előzetesen megigényelt adattörlő kódokat kell feltölteni, és értékesítéskor a felület "adja" az átadandó kódot.
 
 
 
