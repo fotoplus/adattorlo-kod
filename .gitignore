@@ -1,0 +1,3 @@
+.vscode/
+e/credentials/*.php
+!e/credentials/sample_*.php
