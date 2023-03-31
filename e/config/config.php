@@ -35,7 +35,7 @@ $title = "FOTOPLUS";
  * Formátum: https://valami.hu
  * 
  */
-define("REDIRECT_URL", "https://www.fotoplus.hu");
+define("REDIRECT_URL", "/hiba/403");
 
 
 ?>
