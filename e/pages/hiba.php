@@ -30,8 +30,12 @@ switch($kod) {
 }
 
 echo <<<HTML
-	<h1><span>{$kod}</span> {$title_en}</h1>
-	<p>{$text_hu}</p>
+	<header>
+		<h1><span>{$kod}</span> {$title_en}</h1>
+	</header>
+	<main>
+		<p>{$text_hu}</p>
+	</main>
 HTML;
 
 ?>

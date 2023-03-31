@@ -24,12 +24,12 @@ if($count == 1) {
 
 $count=false;
 
-/*
+
 if(!$allow):
     header('Location: '. REDIRECT_URL);
     exit;
 endif;
-*/
+
 
 
 
