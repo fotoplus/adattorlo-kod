@@ -43,3 +43,24 @@ div.code-container {
 		color: white;
 		transition: 0.3s;
 	}
+
+
+div.printableDatas {
+	background-color: var(--color-light-gray);
+	padding: 10px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+
+}
+
+div.printableDatas p {
+	text-align: center;
+}
+
+div.printableDatas p span {
+	font-family: monospace;
+	font-weight: bold;
+	font-size: 1.5rem;
+	color: var(--color-black);
+}

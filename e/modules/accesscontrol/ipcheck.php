@@ -17,6 +17,7 @@ $count = $result->num_rows;
 if($count == 1) {
     $allow = true;
     $location = $result->fetch_assoc();
+    
 } else {
     $allow = false;
 }

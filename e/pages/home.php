@@ -1,14 +1,19 @@
 <?php
 
 echo <<<HTML
-
+	<header>
+		<h1>Adattörlő kód kezelő</h1>
+		<p>
+			Az alábbi lehetőségek közül választhatsz
+		</p>
+	</header>
 	<nav>
 		<ul>
 			<li><a href="/ertekesites">Értékesítés</a></li>
 			<li><a href="/adatszolgaltatas">Adatszolgáltatás</a></li>
+			<li><a href="/kodok">Kódok kezelése</a></li>
 		</ul>
 	</nav>
-
 
 	<article>
 		<h2>Kapcsolódó</h2>

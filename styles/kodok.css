@@ -1,0 +1,43 @@
+
+
+
+
+
+div#output {
+	background-color: var(--color-black);
+	padding: 10px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-family: monospace;
+}
+
+.duplicated {
+	color: orange;
+}
+
+.added {
+	color: white;
+}
+
+.error {
+	color: var(--color-red);
+}
+
+
+table {
+	width: 100%;
+}
+table thead tr td {
+	font-weight: bold;
+	color: var(--color-gray);
+}
+
+table tbody tr td {
+	color: var(--color-black);
+	font-family: monospace;
+}
+
+#container {
+	max-width: var(--width-table) !important;
+}

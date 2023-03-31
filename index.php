@@ -43,10 +43,6 @@ require_once ('e/modules/pages/pages.php');
 	<body>
 
 		<div id="container">
-			<header>
-				<h1> </h1>
-			</header>
-			<main>
 				<?php
 					if($allow) {
 						include $page['file'];
@@ -54,7 +50,6 @@ require_once ('e/modules/pages/pages.php');
 						include $page['file'];
 					}
 				?>
-			</main>
 		</div>
 
 		<footer>
@@ -64,6 +59,7 @@ require_once ('e/modules/pages/pages.php');
 		</footer>
 		<div id="location"><?php echo $location['name']; ?></div>
 	<!-- Scriptek -->	
+	
 	<!-- Scriptek (vége) -->
 
 	</body>
