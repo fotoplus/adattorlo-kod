@@ -1,0 +1,20 @@
+# Apache Module mod_rewrite
+RewriteEngine On
+
+# Az aktuális oldal(rész) gyökere, ha saját domainen van akkor csak "/"
+RewriteBase "/"
+
+# Itt lényegében mindent átadunk az URL-ből a PHP-nek, aztán az majd jól megoldja...
+# Bármi ami a / után van, ha nem fájlhoz vezet (azaz nem fájl), akkor az index.php-hez kerül
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule !^index\.php$ index.php
+
+
+# Egyedi hibaoldalak
+ErrorDocument 400 /hiba/400
+ErrorDocument 401 /hiba/401
+ErrorDocument 403 /hiba/403
+ErrorDocument 404 /hiba/404
+ErrorDocument 500 /hiba/500
