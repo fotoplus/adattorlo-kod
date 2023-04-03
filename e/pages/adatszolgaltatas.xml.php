@@ -3,6 +3,7 @@
 
 $generate_xml = false;
 $download_xml = false;
+$provision = false;
 $sendmail=false;
 $error=false;
 $xml=false;
@@ -21,13 +22,29 @@ $sql_provision = 'SELECT *
 
 $result_provision = $mysqli->query($sql_provision);
 if ($result_provision->num_rows == 0) {
-	$generate_xml=true;
-	$sendmail='send_xml';
+	#$generate_xml=true;
+	#$sendmail='send_xml';
+	$provision=true;
+} else if($result_provision->num_rows == 1) {
+	$download_xml = true;
+} else {
+	$error=('Dupliáklt bejegyzés!');
 }
 
 
-if($generate_xml) {
+$sql = 'SELECT id, date, receipt_number, code 
+		FROM sales
+		WHERE date BETWEEN "'.$kezdo_datum.'" AND "'.$zaro_datum.'"
+	';
 
+$result = $mysqli->query($sql);
+if ($result->num_rows > 0) {
+	$generate_xml = true;
+}
+
+if($generate_xml and !$error) {
+
+	/*
 	// Query a sorok kiválasztására
 	$sql = 'SELECT id, date, receipt_number, code 
 			FROM sales
@@ -35,7 +52,7 @@ if($generate_xml) {
 		';
 
 	$result = $mysqli->query($sql);
-
+	*/
 	// Csoportokra bontás és kiírás
 	$i = 0; // Csoport számláló
 	$n = 0; // Sor számláló
@@ -105,36 +122,35 @@ if($generate_xml) {
 	</nyomtatvanyok>
 	';
 
-	$insert_xml = $mysqli->real_escape_string($xml);
+	if($provision) {
+		$insert_xml = $mysqli->real_escape_string($xml);
 
 
-	$sql = 'INSERT INTO `data_provisions`
-		(
-			`interval_start`
-			,`interval_end`
-			,`xml`
-		)
-		VALUES (
-			 "'. $kezdo_datum .'"
-			,"'. $zaro_datum .'"
-			,"'. $insert_xml .'"
-		)
-	';
+		$sql = 'INSERT INTO `data_provisions`
+			(
+				`interval_start`
+				,`interval_end`
+				,`xml`
+			)
+			VALUES (
+				"'. $kezdo_datum .'"
+				,"'. $zaro_datum .'"
+				,"'. $insert_xml .'"
+			)
+		';
 
-	if(!$mysqli->query($sql)) {
-		$error=('Adatbázis hiba!');
-	} 
-
-} else {
-
-	if ($result_provision->num_rows == 1) {
-		$provision=$result_provision->fetch_assoc();
-		$xml=$provision['xml'];
-		$sendmail = 'no_xml';
-	} else {
-		$error=('Dupliáklt bejegyzés!');
+		if(!$mysqli->query($sql)) {
+			$error=('Adatbázis hiba!');
+		} 
 	}
 
+} 
+
+
+if($provision and $xml and !$error) {
+	$sendmail = 'send_xml';
+} else if($provision and !$xml and !$error) {
+	$sendmail = 'no_xml';
 }
 
 
@@ -163,21 +179,24 @@ if($sendmail) {
 	$mail->setFrom('noreply@fotoplus.hu', 'Adattörlő kód kezelő');
 	$mail->addAddress('fotoplus@fotoplus.hu', $torzs['cegnev']);
 
-	if($xml and !$error and $sendmail == 'send_xml') {
-		$mail->Subject = 'Új XML - Adatszolgáltatás adat törlő kódokról';
-		$mail->Body = 'Az előző heti XML állomány az AATKOD nyomtatvány beadásához elkészült.';
+	if($provision and $xml and !$error) {
 
+		$mail->Subject = 'Új XML - Adatszolgáltatás adat törlő kódokról';
+		$mail->Body = 'Az előző heti értékesítésekről az XML állomány az AATKOD nyomtatvány beadásához elkészült.';
+		
 		// Attach the XML file
 		$mail->addStringAttachment($xml, 'AATKOD_'. $kezdo_datum .'-' . $zaro_datum . '.xml');
-	} else if(!$xml and $error) {
+
+	} else if($provision and !$xml and !$error) {
+		
+		$mail->Subject = 'Nincs - Adatszolgáltatás adat törlő kódokról';
+		$mail->Body = 'Az előző héten nem volt értékesítés, nem szükséges az AATKOD nyomtatvány beadása.';
+
+	} else if($error) {
+
 		$mail->Subject = 'HIBA - Adatszolgáltatás adat törlő kódokról';
 		$mail->Body = 'Nem sikerült elkészíteni az XML fájlt az előző heti adatokból.'.chr(13).'A hiba: '.$error;
 
-		// Attach the XML file
-		#$mail->addStringAttachment($xml, 'AATKOD_'. $kezdo_datum .'-' . $zaro_datum . '.xml');
-	} else if($xml and !$error and $sendmail == 'no_xml') {
-		$mail->Subject = 'Adatszolgáltatás adat törlő kódokról';
-		$mail->Body = 'Az előző héten nem volt értékesítés.';
 	}
 	
 	// Send the email
@@ -193,6 +212,9 @@ if($sendmail) {
 
 
 if($download_xml) {
+	$provision=$result_provision->fetch_assoc();
+	$xml=$provision['xml'];
+
 	header('Content-disposition: attachment; filename=AATKOD_'. $kezdo_datum .'-' . $zaro_datum . '.xml');
 	header('Content-type: text/xml');
 	echo($xml);
