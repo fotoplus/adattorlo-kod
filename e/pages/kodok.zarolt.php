@@ -38,8 +38,8 @@ while($row = $result->fetch_assoc()) {
 
 echo <<<HTML
 	<header>
-		<h1>Átadott kódok</h1>
-		<p>Itt időrendben visszafelé haladva láthatjuk a már átadott kódokat.</p>
+		<h1>Zárolt kódok</h1>
+		<p>Itt időrendben visszafelé haladva láthatjuk a rendszer által (ideiglenesen) zárolt, még nem feloldott kódokat, és a zárolás helyét. A zárolt kódok felszabadítása 1 nap elteltével, automatikusan az "Értékesítés" felület által történik, annak megnyitásakor.</p>
 	</header>
 
 	<main>
