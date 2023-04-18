@@ -1,0 +1,25 @@
+
+.provisions {
+	border: 1px solid var(--color-light-gray);
+	border-radius: 3px;
+	padding: 10px;
+	margin: 10px 0 10px 0;
+}
+
+.interval {
+	font-weight: bold;
+}
+
+button.toggle-button {
+	background-color: transparent;
+	margin: 0;
+	padding: 0;
+	color: black;
+	border: none;
+	min-width: auto;
+}
+
+button.toggle-button:hover {
+	color: var(--color-blue);
+}
+

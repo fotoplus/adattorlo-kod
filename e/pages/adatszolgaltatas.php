@@ -14,7 +14,10 @@ if($subpage and file_exists($subpage['file'])) {
 		</header>
 		<nav>
 			<ul>
-				<li><a href="/adatszolgaltatas/xml">XML</a></li>
+				<li><a href="/adatszolgaltatas/xml">XML generálás és küldés</a></li>
+			</ul>
+			<ul>
+				<li><a href="/adatszolgaltatas/igazolas">Nyomtatványbenyújtás igazolása</a></li>
 			</ul>
 			<a href="/" class="nav-back">Vissza</a>
 		</nav>
