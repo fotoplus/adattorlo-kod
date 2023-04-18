@@ -35,7 +35,6 @@ if(isset($_POST['pid']) and is_numeric($_POST['pid'])) {
 		$html .=  '<div class="error">Hiányzó adatok!</div>';
 	}
 
-
 }
 
 
