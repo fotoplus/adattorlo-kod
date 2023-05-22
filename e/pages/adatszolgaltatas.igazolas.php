@@ -30,7 +30,49 @@ if(isset($_POST['pid']) and is_numeric($_POST['pid'])) {
 		if ($insert_query->affected_rows !== 1) {
 			echo "Failed to insert submission data into database.";
 			exit();
-		} 
+		} else {
+
+			require 'e/credentials/email.php';
+			require 'e/vendor/PHPMailer/src/PHPMailer.php';
+			require 'e/vendor/PHPMailer/src/Exception.php';
+			require 'e/vendor/PHPMailer/src/SMTP.php';
+		
+		
+			// SMTP konfiguráció beállítása
+			$mail = new PHPMailer\PHPMailer\PHPMailer(true);
+			$mail->isSMTP();
+			$mail->CharSet = "UTF-8";
+			#$mail->isHTML(true);
+			$mail->Host = $email['host'];
+			$mail->SMTPAuth = true;
+			$mail->Username = $email['username'];
+			$mail->Password = $email['auth_password'];
+			$mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+			$mail->Port = 587;
+		
+			
+			// Set the email details
+			$mail->setFrom('noreply@fotoplus.hu', 'Adattörlő kód kezelő');
+			$mail->addAddress('fotoplus@fotoplus.hu', $torzs['cegnev']);
+		
+
+		
+			$mail->Subject = 'Adatszolgáltatás igazolása';
+			$mail->Body = 'Az előző heti értékesítésekről az adatszolgáltatás megtörtént.\r\n'
+						.chr(13). 'Dátum: '.$submission_date.'\r\n'
+						.chr(13). 'NAV érkezési szám: '.$submission_proof.'\r\n'
+						.chr(13). 'Beküldte: '.$submitted_by.'\r\n';
+				
+
+			
+			// Send the email
+			if (!$mail->send()) {
+				echo 'Email could not be sent.';
+				echo 'Mailer Error: ' . $mail->ErrorInfo;
+			} else {
+				#echo 'Email sent successfully.';
+			}
+		}
 	} else {
 		$html .=  '<div class="error">Hiányzó adatok!</div>';
 	}

@@ -182,7 +182,9 @@ if($sendmail) {
 	if($provision and $xml and !$error) {
 
 		$mail->Subject = 'Új XML - Adatszolgáltatás adat törlő kódokról';
-		$mail->Body = 'Az előző heti értékesítésekről az XML állomány az AATKOD nyomtatvány beadásához elkészült.';
+		$mail->Body = 'Az előző heti értékesítésekről az XML állomány az AATKOD nyomtatvány beadásához elkészült.\r\n'
+					.chr(13). 'A benyújtás az ONYA vagy az ÁNYK program AATKOD űrlapjával lehetséges.\r\n'
+					.chr(13). 'A benyújtás igazolását a https://aatkod.fotoplus.hu/adatszolgaltatas/igazolas oldalon kell megtenni.\r\n';
 		
 		// Attach the XML file
 		$mail->addStringAttachment($xml, 'AATKOD_'. $kezdo_datum .'-' . $zaro_datum . '.xml');
