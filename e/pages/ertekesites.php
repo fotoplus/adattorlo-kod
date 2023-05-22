@@ -7,10 +7,12 @@ $msg = false;
 
 if(isset($_POST['save'])) {
 
+	$replace_from = array("ö", "Ö", "NZ");
+	$replace_to = array("0", "0", "NY");
 
 	$code = (isset($_POST['code']) and !empty($_POST['code'])) ? $_POST['code'] : false;
 	$date = (isset($_POST['date']) and !empty($_POST['date'])) ? $_POST['date'] : false;
-	$receipt_number = (isset($_POST['receipt_number']) and !empty($_POST['receipt_number'])) ? str_replace('ö','0',$_POST['receipt_number']) : false;
+	$receipt_number = (isset($_POST['receipt_number']) and !empty($_POST['receipt_number'])) ? str_replace($replace_from, $replace_to, $_POST['receipt_number']) : false;
 	
 	if($code) {
 		$sql = "SELECT 
