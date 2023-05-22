@@ -58,10 +58,10 @@ if(isset($_POST['pid']) and is_numeric($_POST['pid'])) {
 
 		
 			$mail->Subject = 'Adatszolgáltatás igazolása';
-			$mail->Body = 'Az előző heti értékesítésekről az adatszolgáltatás megtörtént.\r\n'
-						.chr(13). 'Dátum: '.$submission_date.'\r\n'
-						.chr(13). 'NAV érkezési szám: '.$submission_proof.'\r\n'
-						.chr(13). 'Beküldte: '.$submitted_by.'\r\n';
+			$mail->Body = 'Az előző heti értékesítésekről az adatszolgáltatás megtörtént.'
+						.chr(13). 'Dátum: '.$submission_date
+						.chr(13). 'NAV érkezési szám: '.$submission_proof
+						.chr(13). 'Beküldte: '.$submitted_by;
 				
 
 			
