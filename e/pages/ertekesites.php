@@ -7,8 +7,8 @@ $msg = false;
 
 if(isset($_POST['save'])) {
 
-	$replace_from = array("ö", "Ö", "NZ");
-	$replace_to = array("0", "0", "NY");
+	$replace_from = array("ö", "Ö", "NZ","SY");
+	$replace_to = array("0", "0", "NY","SZ");
 
 	$code = (isset($_POST['code']) and !empty($_POST['code'])) ? $_POST['code'] : false;
 	$date = (isset($_POST['date']) and !empty($_POST['date'])) ? $_POST['date'] : false;
