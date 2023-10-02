@@ -64,3 +64,8 @@ div.printableDatas p span {
 	font-size: 1.5rem;
 	color: var(--color-black);
 }
+
+.warning_msg {
+	color:red;
+	font-size: .8em;
+}

@@ -13,6 +13,7 @@ if(isset($_POST['save'])) {
 	$code = (isset($_POST['code']) and !empty($_POST['code'])) ? $_POST['code'] : false;
 	$date = (isset($_POST['date']) and !empty($_POST['date'])) ? $_POST['date'] : false;
 	$receipt_number = (isset($_POST['receipt_number']) and !empty($_POST['receipt_number'])) ? str_replace($replace_from, $replace_to, $_POST['receipt_number']) : false;
+	$order_id = (isset($_POST['order_id']) and !empty($_POST['order_id'])) ? $_POST['order_id'] : null;
 	
 	if($code) {
 		$sql = "SELECT 
@@ -66,10 +67,11 @@ HTML;
 
 			$code = $mysqli->real_escape_string($code);
 			$receipt_number = $mysqli->real_escape_string($receipt_number);
+			$order_id = $mysqli->real_escape_string($order_id);
 			$date = $mysqli->real_escape_string($date);
 			$lid = $mysqli->real_escape_string($location['lid']);
 
-			$sql = "INSERT INTO `sales` (`code`, `receipt_number`, `date`,`lid`) VALUES ('" . $code . "','" . $receipt_number . "','" . $date . "','".$lid."')";
+			$sql = "INSERT INTO `sales` (`code`, `receipt_number`, `order_id`, `date`,`lid`) VALUES ('" . $code . "','" . $receipt_number . "',' '".$order_id."', " . $date . "','".$lid."')";
 
 			if ($mysqli->query($sql) === TRUE) {
 				$msg = "<p>A kódot és az értékesítési adatokat sikeresen rögzítettük.</p>";
@@ -108,6 +110,11 @@ HTML;
 			<p>
 				Értékesítési bizonylat száma:<br>
 				<span id="printReceipt_number" class="bold">{$receipt_number}</span>
+			</p>
+
+			<p>
+				Rendelés száma:<br>
+				<span id="printOrder_id" class="bold">{$order_id}</span>
 			</p>
 		</div>
 		<button class="btn"  id="print">Nyomtatás</button>
@@ -208,7 +215,11 @@ HTML;
 					<input type="datetime-local" name="date" value="{$date}" required>
 
 					<label for="receipt_number">Értékesítési bizonylat száma</label>
-					<input type="text" name="receipt_number" placeholder="Másold ide, vagy olvasd be a bizonylat számát." id="barcode" required>
+					<input type="text" name="receipt_number" placeholder="Add meg a bizonylat számát" id="receipt_number" required>
+					<span id="warning_msg"></span>
+
+					<label for="order_id">Rendelés azonosító</label>
+					<input type="text" name="order_id" placeholder="Itt megadhatod a rendelés azonosítót" id="order_id">
 
 					<button name="save" value="save">Mentés</button>
 					<a href="/" title="Mentés nélküli visszalépés" class="space">Vissza</a>
@@ -218,6 +229,7 @@ HTML;
 		</main>
 		
 		<script src="/scripts/barcode_prevent_enter.js"></script>
+		<script src="/scripts/warning_by_content.js"></script>
 		<script src="/scripts/code_copy.js"></script>
 
 

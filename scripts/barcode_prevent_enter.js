@@ -6,7 +6,13 @@
 * Bár így az enter sem fog működni, az űrlap gombjait kell használni.
 * 
 */
-document.getElementById("barcode").addEventListener("keydown", function(e) {
+document.getElementById("receipt_number").addEventListener("keydown", function(e) {
+	if (e.key === "Enter") {
+		e.preventDefault();
+	}
+});
+
+document.getElementById("order_id").addEventListener("keydown", function(e) {
 	if (e.key === "Enter") {
 		e.preventDefault();
 	}
