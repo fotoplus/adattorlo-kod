@@ -1,0 +1,50 @@
+name: Deploy (main)
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+  
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+
+        #- name: Install SSH client
+        #  run: sudo apt-get install -y openssh-client
+
+        - name: Set up SSH key
+          run: |
+            mkdir -p ~/.ssh
+            echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            ssh-keyscan -H ${{ vars.SSH_HOST }} >> ~/.ssh/known_hosts
+            chmod 644 ~/.ssh/known_hosts
+
+        - name: Deploy code
+          run: |
+            ssh ${{ vars.SSH_USER}}@${{ vars.SSH_HOST }} 'cd ${{ vars.WORK_DIR }} && git pull'
+
+    
+        - name: Mark deployment
+          uses: actions/github-script@v4
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+              const { data } = await github.repos.createDeployment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: context.sha,
+                environment: 'production',
+                auto_merge: false,
+                required_contexts: [],
+                payload: JSON.stringify({}),
+              });
+              await github.repos.createDeploymentStatus({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                deployment_id: data.id,
+                state: 'success',
+              });
