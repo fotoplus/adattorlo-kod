@@ -73,14 +73,14 @@ div.printableDatas p span {
 	min-height: 2em;
 }
 
-.validation.error {
+.validation.validation-error {
 	color: red;
 }
 
-.validation.success {
+.validation.validation-success {
 	color: green;
 }
 
-.validation.uncertain {
+.validation.validation-uncertain {
 	color: orange;
 }
