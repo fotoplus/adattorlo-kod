@@ -64,3 +64,23 @@ div.printableDatas p span {
 	font-size: 1.5rem;
 	color: var(--color-black);
 }
+
+
+.validation {
+	font-size: .8em;
+	color: gray;
+	margin: -1.5em 1em 1em 1em;
+	min-height: 2em;
+}
+
+.validation.error {
+	color: red;
+}
+
+.validation.success {
+	color: green;
+}
+
+.validation.uncertain {
+	color: orange;
+}

@@ -208,7 +208,8 @@ HTML;
 					<input type="datetime-local" name="date" value="{$date}" required>
 
 					<label for="receipt_number">Értékesítési bizonylat száma</label>
-					<input type="text" name="receipt_number" placeholder="Másold ide, vagy olvasd be a bizonylat számát." id="barcode" required>
+					<input type="text" name="receipt_number" placeholder="Add meg a számla vagy nyugta sorszámát" id="receipt_number" required>
+					<div id="receipt_number_validation" class="validation"></div>
 
 					<button name="save" value="save">Mentés</button>
 					<a href="/" title="Mentés nélküli visszalépés" class="space">Vissza</a>
@@ -219,6 +220,7 @@ HTML;
 		
 		<script src="/scripts/barcode_prevent_enter.js"></script>
 		<script src="/scripts/code_copy.js"></script>
+		<script src="/scripts/receipt_number_validation.js"></script>
 
 
 HTML;
