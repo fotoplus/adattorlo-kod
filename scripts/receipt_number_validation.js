@@ -18,13 +18,13 @@ function validateReceiptNumber() {
     } else if (value.match(/^\d+\/\d+$/)) {
         validationDiv.textContent = 'Rendben, ez a nyugta száma';
         validationDiv.className = 'validation validation-success';
-    } else if (value.length >= 4 && value.length <= 6 && !value.includes('/')) {
-        validationDiv.textContent = 'Nem jó, ez egy NAV ellenőrző kód, a nyugta vagy a számla számát add meg!';
-        validationDiv.className = 'validation error';
+	} else if (/^[A-Za-z0-9]{4,6}$/.test(value)) {
+		validationDiv.textContent = 'Nem jó, ez egy NAV ellenőrző kód, a nyugta vagy a számla számát add meg!';
+		validationDiv.className = 'validation error';
     } else if (value.startsWith('A') && (value.match(/\//g) || []).length >= 2) {
         validationDiv.textContent = 'Rendben, ez egy nyugta száma';
         validationDiv.className = 'validation success';
-    } else if (value.match(/^E-FP\d{2}-\d{4}-\d+$/) || value.match(/^FP[A-Z]{0,2}-\d{4}-\d+$/)) {
+    } else if (value.match(/^E-FP[A-Z]{0,2}-\d{2}-\d{4}-\d+$/) || value.match(/^FP[A-Z]{0,2}-\d{4}-\d+$/)) {
         validationDiv.textContent = 'Rendben, ez egy számlaszám';
         validationDiv.className = 'validation validation-success';
     } else {
