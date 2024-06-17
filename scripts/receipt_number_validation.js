@@ -21,9 +21,9 @@ function validateReceiptNumber() {
 	} else if (/^[A-Za-z0-9]{5}$/.test(value)) {
  		validationDiv.textContent = 'Nem jó, ez egy NAV ellenőrző kód, a nyugta vagy a számla számát add meg!';
 		validationDiv.className = 'validation validation-error';
-    } else if (value.startsWith('A') && (value.match(/\//g) || []).length >= 2) {
-        validationDiv.textContent = 'Rendben, ez egy nyugta száma';
-        validationDiv.className = 'validation validation-success';
+	} else if (/^A\d{8,}(\/\d{4}\/\d{5})?$/.test(value)) {
+		validationDiv.textContent = 'Rendben, ez egy nyugta száma';
+		validationDiv.className = 'validation validation-success';
 	} else if (value.match(/^(E-)?FP[A-Z]{0,2}-\d{2,4}-\d+$/)) {
 		validationDiv.textContent = 'Rendben, ez egy számlaszám';
 		validationDiv.className = 'validation validation-success';
