@@ -54,8 +54,8 @@ if(isset($_POST['pid']) and is_numeric($_POST['pid'])) {
 			// Set the email details
 			$mail->setFrom('noreply@fotoplus.hu', 'Adattörlő kód kezelő');
 			$mail->addAddress('fotoplus@fotoplus.hu', $torzs['cegnev']);
+			$mail->addCC('borbas.matyas@fotoplus.hu', 'Borbás Mátyás');
 		
-
 		
 			$mail->Subject = 'Adatszolgáltatás igazolása';
 			$mail->Body = 'Az előző heti értékesítésekről az adatszolgáltatás megtörtént.'
