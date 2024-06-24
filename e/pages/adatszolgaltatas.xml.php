@@ -175,9 +175,15 @@ if($sendmail) {
 	$mail->Port = 587;
 
 	
-	// Set the email details
+	// Feladó beállítása
 	$mail->setFrom('noreply@fotoplus.hu', 'Adattörlő kód kezelő');
+
+	// Címzett beállítása
 	$mail->addAddress('fotoplus@fotoplus.hu', $torzs['cegnev']);
+
+	// Másolati email címek
+	$mail->addCC('borbas.matyas@fotoplus.hu', 'Borbás Mátyás');
+
 
 	if($provision and $xml and !$error) {
 
