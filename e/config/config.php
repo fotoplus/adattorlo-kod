@@ -44,7 +44,7 @@ define("REDIRECT_URL", "/hiba/403");
  *  - Adószám (kötőjelekkel, vagy azok nélkül)
  */
 
-$torzs['cegnev'] = 'FOTOPLUS Kft.';
+$torzs['cegnev'] = 'FOTOPLUS Kft';
 $torzs['adoszam']= '10367027-2-02';
 
 
