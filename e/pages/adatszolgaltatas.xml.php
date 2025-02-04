@@ -8,8 +8,8 @@ $sendmail=false;
 $error=false;
 $xml=false;
 
-$kezdo_datum = date("Y-m-d", strtotime("last Monday"));
-$zaro_datum = date("Y-m-d", strtotime("last Sunday",));
+$kezdo_datum = date("Y-m-d", strtotime("monday last week"));
+$zaro_datum = date("Y-m-d", strtotime("sunday last week",));
 
 
 $sql_provision = 'SELECT * 
