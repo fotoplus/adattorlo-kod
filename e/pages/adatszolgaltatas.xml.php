@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Ez kissé logikátlanul lett összerakva.
+ * 
+ * 
+ * 
+ */
+
 
 $generate_xml = false;
 $download_xml = false;
@@ -8,10 +15,23 @@ $sendmail=false;
 $error=false;
 $xml=false;
 
+
+/**
+ * Beállítjuk a vizgsált időszakot
+ * 
+ * A viszgált időszak mindíg az előző hét hétfőjétől vasárnapjáig tart.
+ * 
+ */
 $kezdo_datum = date("Y-m-d", strtotime("monday last week"));
 $zaro_datum = date("Y-m-d", strtotime("sunday last week",));
 
-
+/**
+ * Ellenőrizzük, hogy a vizsgált időszakról létrehoztunk-e már bejegyzést (és XML-t)
+ * 
+ * Ez azért szükséges, mert lehet hogy ez a script cron műveletből már lefutott, 
+ * és mi most menüből nyitottuk meg az oldalt.
+ * 
+ */
 $sql_provision = 'SELECT * 
 		FROM data_provisions
 		WHERE
@@ -22,38 +42,39 @@ $sql_provision = 'SELECT *
 
 $result_provision = $mysqli->query($sql_provision);
 if ($result_provision->num_rows == 0) {
+	// Ha nincs még bejegyzés, akkor létre kell hozni, ezért a provision változót true-ra állítjuk
+	$provision=true;
+
 	#$generate_xml=true;
 	#$sendmail='send_xml';
-	$provision=true;
+
 } else if($result_provision->num_rows == 1) {
+	// Ha van 1 db bejegyzés, akkor nem kell generálni adatot, hanem a meglévő XML-t le lehet tölteni.
 	$download_xml = true;
 } else {
+	// Ez elvileg nem lehetséges, de ha mégis, akkor hibát jelezünk
 	$error=('Dupliáklt bejegyzés!');
 }
 
 
-$sql = 'SELECT id, date, receipt_number, code 
-		FROM sales
-		WHERE date BETWEEN "'.$kezdo_datum.'" AND "'.$zaro_datum.'"
-	';
-
-$result = $mysqli->query($sql);
-if ($result->num_rows > 0) {
-	$generate_xml = true;
-}
-
-if($generate_xml and !$error) {
-
-	/*
-	// Query a sorok kiválasztására
+// Ha a provision változó true, akkor le kell kérni az értékesítési adatokat (ha vannak)
+if($provision and !$error) {
 	$sql = 'SELECT id, date, receipt_number, code 
 			FROM sales
 			WHERE date BETWEEN "'.$kezdo_datum.'" AND "'.$zaro_datum.'"
 		';
 
 	$result = $mysqli->query($sql);
-	*/
-	// Csoportokra bontás és kiírás
+	if ($result->num_rows > 0) {
+		// Ha a vizsgált időszakban volt értékesítés, akkor létre kell hozni az XML-t az adatszolgáltatáshoz
+		$generate_xml = true;
+	}
+}
+
+// Ha az előző vizsgálat szerint volt értékesítés, akkor a generate_xml true lett és megyünk tovább (ha nincs hiba)
+if($generate_xml and !$error) {
+
+	// Csoportokra bontás
 	$i = 0; // Csoport számláló
 	$n = 0; // Sor számláló
 	$maxsor = 35;
@@ -75,6 +96,7 @@ if($generate_xml and !$error) {
 			<mezok>
 	';
 
+	// Az előző $sql-ből lekért adatokat feldolgozzuk
 	if ($result->num_rows > 0) {
 		while($row = $result->fetch_assoc()) {
 				
@@ -106,11 +128,13 @@ if($generate_xml and !$error) {
 			';
 
 			$n++;
-	/*
+
+	/* Ez nem tudom miért van itt, vagy miért van kikommentelve
 			// Csoport vége
 			if ($n % $maxsor == 0 || $n == $result->num_rows) {
 			}
 	*/
+
 		}
 	}
 
@@ -122,6 +146,13 @@ if($generate_xml and !$error) {
 	</nyomtatvanyok>
 	';
 
+	/**
+	 * 
+	 * Ha a provision változó true, akkor az adatbázisba is be kell szúrni az XML-t,
+	 * bár ebben az ágban amúgy sew lennénk benne ha nem lenne true, 
+	 * mert a generate_xml ezért lett ture
+	 * 
+	 */
 	if($provision) {
 		$insert_xml = $mysqli->real_escape_string($xml);
 
@@ -146,14 +177,26 @@ if($generate_xml and !$error) {
 
 } 
 
-
+/**
+ * 
+ * Ha a provision true, azaz most kell adatot küldeni,
+ * akkor a sendmail értékét aszerint állítjuk be, hogy a vizsgált időszakban volt-e értékesítés,
+ * azaz generáltunk e xml-t vagy sem.
+ * 
+ * 
+ */
 if($provision and $xml and !$error) {
 	$sendmail = 'send_xml';
 } else if($provision and !$xml and !$error) {
 	$sendmail = 'no_xml';
 }
 
-
+/**
+ * 
+ * Ha a sendmail true, azaz küldeni kell az emailt, akkor a PHPMailer-t használva küldjük el az emailt.
+ * A tartalma pedig attól függ, hogy volt-e értékesítés.
+ * 
+ */
 if($sendmail) {
 
 	require 'e/credentials/email.php';
@@ -217,9 +260,14 @@ if($sendmail) {
 
 }
 
-
-
-if($download_xml) {
+/**
+ * A download_xml akkor true, hogy ha a vizsgált időszakról már létezik XML.
+ * Itt az a probléma, hogy ha ez cronbol futna le (vagy parancsosrból) akkor oda kitenné az XML-t,
+ * így viszgálni kell, hoyg ez a parancsor e, ami a cli változóban van.
+ * 
+ * 
+ */
+if($download_xml and !$cli and !$error) {
 	$provision=$result_provision->fetch_assoc();
 	$xml=$provision['xml'];
 
