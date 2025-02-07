@@ -1,3 +1,7 @@
 .vscode/
 e/credentials/*.php
 !e/credentials/sample_*.php
+
+# macOS specific files
+.DS_Store
+._*
