@@ -14,4 +14,3 @@ Az "Az adatok végleges hozzáférhetetlenné tételét lehetővé tevő alkalma
 - [**AATKOD, adatszolgáltatás az adattörlő kódokról**](https://nav.gov.hu/ugyfeliranytu/nezzen-utana/tudjon_rola/AATKOD_adatszolgaltatas_az_adattorlo_kodokrol)
 - [**Adatszolgáltatás az adattörlő kódról pénztárgéppel, számlázóprogrammal**](https://nav.gov.hu/ado/onlinepenztargepek_1417761437385/Adatszolgaltatas_az_adattorlo_kodrol_penztargeppel_szamlazoprogrammal)
 - [**Adatszolgáltatás az adattörlő kódról pénztárgéppel, számlázóprogrammal**](https://nav.gov.hu/pfile/file?path=/ado/onlinepenztargepek_1417761437385/adatszolgaltatas-az-adattorlo-kodrol-penztargeppel-szamlazoprogrammal-tajekoztato) [**PDF**]
-
